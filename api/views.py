@@ -20,24 +20,24 @@ def study_center(request):
         events = Study_center.objects.all()
         serializer = Study_centerSerializer(events, many=True)
         return Response(serializer.data, status=HTTP_200_OK)
-
-@api_view(['GET', 'POST'])
-@permission_classes([StudyDetailPermission])
-def study_detail(request, pk):
-
-    study_center = Study_center.objects.get(pk=pk)
-
-    if request.method == 'GET':
-        serializer = Study_centerSerializer(Study_center)
-        return Response(serializer.data, status=HTTP_202_ACCEPTED) 
     elif request.method == 'POST':
         serializer = Study_centerSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=HTTP_201_CREATED)
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)     
+
+@api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([StudyDetailPermission])
+def study_detail(request, pk):
+
+    study_center = Study_center.objects.get(pk=pk)
+
+    if request.method == 'GET':
+        serializer = Study_centerSerializer(study_center)
+        return Response(serializer.data, status=HTTP_202_ACCEPTED)     
     elif request.method == 'PUT':
-        serializer = Study_centerSerializer(data=request.data)
+        serializer = Study_centerSerializer(study_center, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=HTTP_202_ACCEPTED)
@@ -56,24 +56,24 @@ def teacher(request):
         teacher = Teacher.objects.all()
         serializer = TeacherSerializer(teacher, many=True)
         return Response(serializer.data, status=HTTP_200_OK)
+    elif request.method == 'POST':
+        serializer = TeacherSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=HTTP_201_CREATED)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)  
 
-@api_view(['GET', 'POST'])
+@api_view(['GET', 'PUT', 'DELETE'])
 @permission_classes([TeacherDetailPermission])
 def teacher_detail(request, pk):
 
     teacher = Teacher.objects.get(pk=pk)
 
     if request.method == 'GET':
-        serializer = TeacherSerializer(Teacher)
+        serializer = TeacherSerializer(teacher)
         return Response(serializer.data, status=HTTP_202_ACCEPTED) 
-    elif request.method == 'POST':
-        serializer = TeacherSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=HTTP_201_CREATED)
-        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)     
     elif request.method == 'PUT':
-        serializer = TeacherSerializer(data=request.data)
+        serializer = TeacherSerializer(teacher, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=HTTP_202_ACCEPTED)
@@ -91,24 +91,24 @@ def student(request):
         student = Student.objects.all()
         serializer = StudentSerializer(student, many=True)
         return Response(serializer.data, status=HTTP_200_OK)
+    elif request.method == 'POST':
+        serializer = StudentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=HTTP_201_CREATED)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)  
 
-@api_view(['GET', 'POST'])
+@api_view(['GET', 'PUT', 'DELETE'])
 @permission_classes([StudentDetailPermission])
 def student_detail(request, pk):
 
     student = Student.objects.get(pk=pk)
 
     if request.method == 'GET':
-        serializer = StudentSerializer(Student)
-        return Response(serializer.data, status=HTTP_202_ACCEPTED) 
-    elif request.method == 'POST':
-        serializer = StudentSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=HTTP_201_CREATED)
-        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)     
+        serializer = StudentSerializer(student)
+        return Response(serializer.data, status=HTTP_202_ACCEPTED)  
     elif request.method == 'PUT':
-        serializer = StudentSerializer(data=request.data)
+        serializer = StudentSerializer(student, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=HTTP_202_ACCEPTED)
